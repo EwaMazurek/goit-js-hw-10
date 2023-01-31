@@ -19,10 +19,13 @@ const fetchCountries = name => {
       }
     })
     .then(arr => {
-      if (arr.length > 10)
+      if (arr.length > 10) {
+        outputList.innerHTML = '';
+        countryInfo.innerHTML = '';
         Notiflix.Notify.info(
           'Too many matches found. Please enter a more specific name.'
         );
+      }
       if (arr.length <= 10 && arr.length >= 2) {
         outputList.innerHTML = '';
         countryInfo.innerHTML = '';
