@@ -1,11 +1,5 @@
-import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
-const searchBar = document.querySelector('#search-box');
-const outputList = document.querySelector('.country-list');
-outputList.style.listStyle = 'none';
-const countryInfo = document.querySelector('.country-info');
-
-const fetchCountries = name => {
+export const fetchCountries = (name, outputList, countryInfo) => {
   fetch(
     `https://restcountries.com/v2/name/${name}?fields=name,capital,population,flags,languages`
   )
@@ -45,23 +39,12 @@ const fetchCountries = name => {
         countryInfo.insertAdjacentHTML(
           'afterbegin',
           `<img src=${countryData.flags.svg} width=40px height=30px>
-            <span>${countryData.name}</span>
-             <p>Capital: ${countryData.capital}</p>
-             <p>Population: ${countryData.population}</p>
-             <p>Languages: ${languageProp.join(', ')}</p>`
+              <span> <b>${countryData.name}</b></span>
+               <p>Capital: <b>${countryData.capital}</b></p>
+               <p>Population: <b>${countryData.population}</b></p>
+               <p>Languages: <b>${languageProp.join(', ')}</b></p>`
         );
       }
     })
     .catch(error => console.log(error));
 };
-
-const inputHandler = e => {
-  if (e.target.value.trim() === '') {
-    outputList.innerHTML = '';
-    countryInfo.innerHTML = '';
-    return;
-  }
-  fetchCountries(e.target.value.trim());
-};
-
-searchBar.addEventListener('input', debounce(inputHandler, 300));
